@@ -3,7 +3,7 @@
 #include <strings.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "form.h"
 
 char *copystr(const char *s)
 {
@@ -68,3 +68,6 @@ void write_links(link_t *start, const char *fn)
 	fclose(f);
 
 }
+
+
+

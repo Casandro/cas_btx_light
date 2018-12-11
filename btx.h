@@ -17,3 +17,7 @@
 
 void set_fd_nonblocking(int fd);
 void set_fd_blocking(int fd);
+int gotoxy(const int output, const int x, const int y);
+
+void cursor_on(const int output);
+void cursor_off(const int output);

@@ -52,15 +52,6 @@ int display_page(const int input, const int output, const char *dir, const char 
 	return 0;
 }
 
-int gotoxy(const int output, const int x, const int y)
-{
-	char buf[3];
-	buf[0]=0x1f; //US
-	buf[1]=x+0x40;
-	buf[2]=y+0x40;
-	write(output, buf, 3);
-}
-
 
 int handle_page(const int input, const int output, const char *dir, const char *page, char *next_page)
 {
@@ -105,18 +96,25 @@ int handle_page(const int input, const int output, const char *dir, const char *
 
 /* return -1 for backwards
  * */
-int browser(int input, int output, const char *dir) 
+int browser(int input, int output, const char *dir, const char *page) 
 {
-	char page[PAGENAMELEN];
-	strcpy(page, "0");
 	char next_page[PAGENAMELEN];
 	while (0==0) {
+		memset(next_page, 0, sizeof(next_page));
 		int res=handle_page(input, output, dir, page, next_page);
 		if (res<0) return -1; //Invalid page, go back
 		if (strcmp(next_page, "*#")==0) return -1;
-
+		int len=strlen(next_page);
+		if (next_page[0]=='*') { //Full page number
+			while (next_page[len-1]=='#') {
+				next_page[len-1]=0;
+				len=strlen(next_page);
+			}
+		}
 	}
 }
+
+
 
 
 int main(int argc, char **argv)
